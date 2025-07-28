@@ -1,7 +1,7 @@
 name: rainmakers_design_system
 description: "Rainmakers Design System is a collection of reusable UI components and styles for Flutter applications, designed to streamline development and ensure consistency across projects."
 version: 0.0.1
-homepage: " "
+homepage: "https://github.com/mrmilu/rainmakers_design_system"
 
 environment:
   sdk: ^3.8.1
