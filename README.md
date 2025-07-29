@@ -83,7 +83,103 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-### 2. Usando Colores
+### 2. Temas Predefinidos
+
+El design system incluye **3 temas predefinidos** listos para usar, cada uno optimizado para diferentes tipos de aplicaciones:
+
+#### 🌟 Tema Moderno (`RMThemeData.modern()`)
+- **Ideal para**: Apps de consumo, startups, aplicaciones creativas
+- **Características**: Esquinas muy redondeadas, efectos de elevación, colores vibrantes
+- **Estilo**: Botones con `BorderRadius.circular(12)`, cards con sombras prominentes
+
+```dart
+// Uso directo
+MaterialApp(
+  theme: RMThemeData.modern().lightTheme,
+  darkTheme: RMThemeData.modern().darkTheme,
+  home: MyHomePage(),
+)
+
+// O configuración global
+RMThemeData.useModernTheme();
+MaterialApp(
+  theme: RMThemeData.light,
+  darkTheme: RMThemeData.dark,
+  home: MyHomePage(),
+)
+```
+
+#### ✨ Tema Minimalista (`RMThemeData.minimal()`)
+- **Ideal para**: Apps de productividad, portfolios, blogs
+- **Características**: Líneas limpias, espacios amplios, sin decoración excesiva
+- **Estilo**: Elementos planos, bordes sutiles, espaciado generoso
+
+```dart
+RMThemeData.useMinimalTheme();
+// o
+MaterialApp(
+  theme: RMThemeData.minimal().lightTheme,
+  darkTheme: RMThemeData.minimal().darkTheme,
+  home: MyHomePage(),
+)
+```
+
+#### 💼 Tema Corporativo (`RMThemeData.corporate()`)
+- **Ideal para**: Apps empresariales, fintech, herramientas de negocio
+- **Características**: Estilo profesional, conservador, bordes rectos
+- **Estilo**: Elementos tradicionales, sombras sutiles, tipografía bold
+
+```dart
+RMThemeData.useCorporateTheme();
+// o
+MaterialApp(
+  theme: RMThemeData.corporate().lightTheme,
+  darkTheme: RMThemeData.corporate().darkTheme,
+  home: MyHomePage(),
+)
+```
+
+#### 🎯 Selector Dinámico de Temas
+
+```dart
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  RMThemeType _currentTheme = RMThemeType.modern;
+
+  @override
+  Widget build(BuildContext context) {
+    // Cambiar tema dinámicamente
+    RMThemeData themeData;
+    switch (_currentTheme) {
+      case RMThemeType.modern:
+        themeData = RMThemeData.modern();
+        break;
+      case RMThemeType.minimal:
+        themeData = RMThemeData.minimal();
+        break;
+      case RMThemeType.corporate:
+        themeData = RMThemeData.corporate();
+        break;
+    }
+    
+    return MaterialApp(
+      theme: themeData.lightTheme,
+      darkTheme: themeData.darkTheme,
+      home: MyHomePage(
+        onThemeChanged: (newTheme) {
+          setState(() => _currentTheme = newTheme);
+        },
+      ),
+    );
+  }
+}
+```
+
+### 3. Usando Colores
 
 ```dart
 // Acceso a colores configurados
