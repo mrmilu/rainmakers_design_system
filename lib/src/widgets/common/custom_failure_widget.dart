@@ -23,7 +23,13 @@ class RMCustomFailureWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          ElevatedButton(onPressed: onTap, child: Text(textButton ?? 'Retry')),
+          ElevatedButton(
+            onPressed: onTap,
+            child: Text(
+              textButton ?? 'Retry',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+          ),
         ],
       ),
     );

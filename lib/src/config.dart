@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'theme/colors.dart';
 import 'theme/text_styles.dart';
 import 'theme/theme_data.dart';
@@ -8,13 +9,15 @@ class RMConfig {
   final RMTextStyles typography;
   final RMThemeData themeData;
 
-  RMConfig({RMColors? colors, RMTextStyles? typography, RMThemeData? themeData})
+  RMConfig({RMColors? colors, TextTheme? textTheme, RMThemeData? themeData})
     : colors = colors ?? RMColors(),
-      typography = typography ?? const RMTextStyles(),
+      typography = textTheme != null
+          ? RMTextStyles.fromTextTheme(textTheme)
+          : const RMTextStyles(),
       themeData = themeData ?? RMThemeData.fromConfigured() {
     // Configurar automáticamente los colores y tipografía primero
     RMColors.configure(this.colors);
-    RMTextStyles.configure(this.typography);
+    RMTextStyles.configure(typography);
 
     // Si no se proporciona themeData, regenerar con los nuevos colores
     if (themeData == null) {
@@ -27,14 +30,19 @@ class RMConfig {
   // Factory method para configuración más explícita
   factory RMConfig.configure({
     RMColors? colors,
-    RMTextStyles? typography,
+    TextTheme? textTheme,
     RMThemeData? themeData,
   }) {
-    return RMConfig(
-      colors: colors,
-      typography: typography,
-      themeData: themeData,
-    );
+    return RMConfig(colors: colors, textTheme: textTheme, themeData: themeData);
+  }
+
+  // Factory method especializado para configurar desde un TextTheme existente
+  factory RMConfig.fromTextTheme({
+    TextTheme? textTheme,
+    RMColors? colors,
+    RMThemeData? themeData,
+  }) {
+    return RMConfig(colors: colors, textTheme: textTheme, themeData: themeData);
   }
 
   // Method para reconfigurar después de la creación

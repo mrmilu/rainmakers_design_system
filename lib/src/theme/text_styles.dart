@@ -91,23 +91,46 @@ class RMTextStyles {
     _instance = typography;
   }
 
+  // Factory para crear RMTextStyles desde un TextTheme existente
+  static RMTextStyles fromTextTheme(TextTheme textTheme) {
+    const defaultStyles = RMTextStyles();
+
+    return RMTextStyles(
+      displayLarge: textTheme.displayLarge ?? defaultStyles.displayLarge,
+      displayMedium: textTheme.displayMedium ?? defaultStyles.displayMedium,
+      displaySmall: textTheme.displaySmall ?? defaultStyles.displaySmall,
+      headlineLarge: textTheme.headlineLarge ?? defaultStyles.headlineLarge,
+      headlineMedium: textTheme.headlineMedium ?? defaultStyles.headlineMedium,
+      headlineSmall: textTheme.headlineSmall ?? defaultStyles.headlineSmall,
+      titleLarge: textTheme.titleLarge ?? defaultStyles.titleLarge,
+      titleMedium: textTheme.titleMedium ?? defaultStyles.titleMedium,
+      titleSmall: textTheme.titleSmall ?? defaultStyles.titleSmall,
+      bodyLarge: textTheme.bodyLarge ?? defaultStyles.bodyLarge,
+      bodyMedium: textTheme.bodyMedium ?? defaultStyles.bodyMedium,
+      bodySmall: textTheme.bodySmall ?? defaultStyles.bodySmall,
+      labelLarge: textTheme.labelLarge ?? defaultStyles.labelLarge,
+      labelMedium: textTheme.labelMedium ?? defaultStyles.labelMedium,
+      labelSmall: textTheme.labelSmall ?? defaultStyles.labelSmall,
+    );
+  }
+
   static TextTheme get textTheme {
     return TextTheme(
-      displayLarge: displayLargeStyle,
-      displayMedium: displayMediumStyle,
-      displaySmall: displaySmallStyle,
-      headlineLarge: headlineLargeStyle,
-      headlineMedium: headlineMediumStyle,
-      headlineSmall: headlineSmallStyle,
-      titleLarge: titleLargeStyle,
-      titleMedium: titleMediumStyle,
-      titleSmall: titleSmallStyle,
-      bodyLarge: bodyLargeStyle,
-      bodyMedium: bodyMediumStyle,
-      bodySmall: bodySmallStyle,
-      labelLarge: labelLargeStyle,
-      labelMedium: labelMediumStyle,
-      labelSmall: labelSmallStyle,
+      displayLarge: _instance.displayLarge,
+      displayMedium: _instance.displayMedium,
+      displaySmall: _instance.displaySmall,
+      headlineLarge: _instance.headlineLarge,
+      headlineMedium: _instance.headlineMedium,
+      headlineSmall: _instance.headlineSmall,
+      titleLarge: _instance.titleLarge,
+      titleMedium: _instance.titleMedium,
+      titleSmall: _instance.titleSmall,
+      bodyLarge: _instance.bodyLarge,
+      bodyMedium: _instance.bodyMedium,
+      bodySmall: _instance.bodySmall,
+      labelLarge: _instance.labelLarge,
+      labelMedium: _instance.labelMedium,
+      labelSmall: _instance.labelSmall,
     );
   }
 

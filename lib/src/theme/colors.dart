@@ -5,6 +5,9 @@ class RMColors {
   final Color primaryColor;
   final Color secondaryColor;
   final Color tertiaryColor;
+  // Disabled
+  final Color disabledColor;
+
   // Backgrounds
   final Color backgroundColor;
   final Color onBackgroundColor;
@@ -33,6 +36,7 @@ class RMColors {
     this.primaryColor = Colors.blue,
     this.secondaryColor = Colors.green,
     this.tertiaryColor = Colors.orange,
+    this.disabledColor = const Color(0xFFDADADA),
     this.backgroundColor = Colors.white,
     this.onBackgroundColor = Colors.black,
     this.surfaceColor = const Color(0xFFF5F5F5),
@@ -67,6 +71,7 @@ class RMColors {
   static Color get primary => _instance.primaryColor;
   static Color get secondary => _instance.secondaryColor;
   static Color get tertiary => _instance.tertiaryColor;
+  static Color get disabled => _instance.disabledColor;
   static Color get background => _instance.backgroundColor;
   static Color get onBackground => _instance.onBackgroundColor;
   static Color get surface => _instance.surfaceColor;

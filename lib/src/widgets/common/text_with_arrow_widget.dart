@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import 'image_asset_widget.dart';
+import '../../theme/text_styles.dart';
 
 class RMTextWithArrowWidget extends StatelessWidget {
   const RMTextWithArrowWidget({
@@ -24,12 +25,15 @@ class RMTextWithArrowWidget extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Text(title, style: titleStyle ?? TextStyle(fontSize: 16)),
+              child: Text(
+                title,
+                style: titleStyle ?? RMTextStyles.bodyLargeStyle,
+              ),
             ),
             const SizedBox(width: 16),
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: RMImageAssetWidget(path: arrowIosRightIcon),
+              child: SvgPicture.string(arrowIosRightIcon),
             ),
           ],
         ),

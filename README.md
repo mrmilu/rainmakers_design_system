@@ -38,14 +38,32 @@ import 'package:flutter/material.dart';
 import 'package:rainmakers_design_system/rainmakers_design_system.dart';
 
 void main() {
-  // Configurar el design system
+  // ✅ CONFIGURACIÓN BÁSICA
   RMConfig(
     colors: RMColors(
       primaryColor: Colors.blue,
       secondaryColor: Colors.green,
       specificBasicWhiteColor: Color(0xFFF8F8F8),
     ),
-    typography: RMTextStyles(),
+    // textTheme es opcional - usa valores por defecto si no se proporciona
+  );
+
+  // ✅ CONFIGURACIÓN CON TEXTTHEME PERSONALIZADO
+  final customTextTheme = TextTheme(
+    titleMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+    bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+    // ... más estilos de Material Design
+  );
+  
+  RMConfig(
+    colors: RMColors(primaryColor: Colors.blue),
+    textTheme: customTextTheme,  // 🎯 Gestión automática de tipografía
+  );
+
+  // ✅ CONFIGURACIÓN DESDE TEMA EXISTENTE
+  RMConfig(
+    colors: RMColors(primaryColor: Colors.purple),
+    textTheme: ThemeData.light().textTheme,  // Usar tema de Material Design
     themeData: RMThemeData.fromConfigured(),
   );
   
@@ -89,19 +107,68 @@ ElevatedButton(
 )
 ```
 
-### 3. Usando Tipografía
+## 📝 Gestión de Tipografía
 
+El design system gestiona automáticamente la tipografía a través de `TextTheme`, proporcionando una integración perfecta con Material Design.
+
+### API Simplificada
 ```dart
-// Estilos de texto predefinidos
-Column(
-  children: [
-    RMTextHeader('Título Principal'),
-    RMTextTitle('Subtítulo'),
-    RMTextBody('Contenido del cuerpo'),
-    RMTextCaption('Texto pequeño'),
-  ],
+// RMConfig solo necesita 3 parámetros:
+RMConfig(
+  colors: RMColors(...),     // Gestión de colores
+  textTheme: TextTheme(...), // Gestión de tipografía (opcional)
+  themeData: RMThemeData(),  // Gestión de temas (opcional)
 )
 ```
+
+### Configuración con TextTheme Personalizado
+```dart
+final customTextTheme = TextTheme(
+  displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.bold),
+  titleMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+  bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+  // ... todos los estilos de Material Design
+);
+
+RMConfig(
+  colors: RMColors(primaryColor: Colors.blue),
+  textTheme: customTextTheme,
+);
+
+// Uso en widgets - ambas formas funcionan
+Text('Título', style: RMTextStyles.titleMediumStyle);
+Text('Título', style: Theme.of(context).textTheme.titleMedium);
+```
+
+### Desde Tema Existente
+```dart
+// Usar TextTheme de Material Design
+RMConfig(
+  textTheme: ThemeData.light().textTheme,
+  colors: RMColors(primaryColor: Colors.purple),
+);
+
+// O desde Google Fonts
+RMConfig(
+  textTheme: GoogleFonts.robotoTextTheme(),
+  colors: RMColors(primaryColor: Colors.green),
+);
+```
+
+### Valores por Defecto
+```dart
+// Si no proporcionas textTheme, usa valores predefinidos optimizados
+RMConfig(
+  colors: RMColors(primaryColor: Colors.blue),
+  // textTheme se genera automáticamente con valores por defecto
+);
+```
+
+### Beneficios de la Nueva API
+- **Simplicidad**: Solo 3 parámetros en RMConfig
+- **Compatibilidad**: Funciona con cualquier TextTheme de Material Design
+- **Automatización**: Conversión automática a RMTextStyles internamente
+- **Flexibilidad**: Acceso tanto por RMTextStyles como por Theme.of(context)
 
 ## 🎨 Sistema de Colores
 
@@ -208,6 +275,70 @@ RMCustomTagIconWidget(
 RMCircularProgress()
 ```
 
+## 🎨 Assets del Design System
+
+El design system incluye iconos predefinidos que se pueden usar de forma sencilla. Para usar assets del package, es importante usar las rutas correctas.
+
+### Uso de Iconos Incluidos
+
+```dart
+import 'package:rainmakers_design_system/rainmakers_design_system.dart';
+
+// Widgets con iconos predefinidos
+RMRowIconTextWidget.info('Información importante')
+RMRowIconTextWidget.warning('Advertencia')
+RMRowIconTextWidget.error('Error encontrado')
+
+// Usar iconos en otros widgets
+RMIconButton.primary(
+  iconPath: RMAssets.iconInfo,
+  onPressed: () {},
+)
+```
+
+### Iconos Disponibles
+
+```dart
+// Iconos predefinidos
+RMAssets.iconInfo      // Icono de información
+RMAssets.iconWarning   // Icono de advertencia  
+RMAssets.iconError     // Icono de error
+```
+
+### Agregar Iconos Personalizados
+
+Si necesitas agregar iconos personalizados al package:
+
+1. **Agrega el icono** a la carpeta `assets/icons/` del package
+2. **Actualiza el pubspec.yaml** si es necesario
+3. **Usa la utilidad** para generar la ruta correcta:
+
+```dart
+// Para un icono personalizado
+RMIconButton.primary(
+  iconPath: RMAssets.iconPath('mi_icono_personalizado.svg'),
+  onPressed: () {},
+)
+
+// O para cualquier asset del package
+String miAsset = RMAssets.assetPath('images/logo.png');
+```
+
+### ⚠️ Importante
+
+Cuando uses el design system como package, **NO uses rutas como** `'assets/icons/icon.svg'` directamente. En su lugar:
+
+```dart
+// ❌ INCORRECTO - No funcionará desde un package
+iconPath: 'assets/icons/info.svg'
+
+// ✅ CORRECTO - Usa las constantes del design system
+iconPath: RMAssets.iconInfo
+
+// ✅ CORRECTO - Para iconos personalizados
+iconPath: RMAssets.iconPath('mi_icono.svg')
+```
+
 ## 🔧 Utilidades
 
 ### Extensiones
@@ -309,4 +440,4 @@ Si necesitas ayuda o tienes preguntas:
 
 ---
 
-Desarrollado con ❤️ por el equipo de [Rainmakers](https://github.com/mrmilu)
+Desarrollado con ❤️ por el equipo de [Rainmakers](https://www.werainmakers.com/)

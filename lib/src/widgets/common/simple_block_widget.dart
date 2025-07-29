@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/theme.dart';
+
 class RMSimpleBlockWidget extends StatelessWidget {
   const RMSimpleBlockWidget({
     super.key,
@@ -41,7 +43,7 @@ class RMSimpleBlockWidget extends StatelessWidget {
       padding: padding,
       borderRadius: borderRadius,
       backgroundColor: backgroundColor,
-      border: Border.all(color: bordeColor ?? Colors.grey.shade300),
+      border: Border.all(color: bordeColor ?? RMColors.disabled),
       child: child,
     );
   }
