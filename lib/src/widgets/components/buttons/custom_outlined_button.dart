@@ -45,6 +45,9 @@ class RMOutlinedButton extends StatelessWidget {
   /// Alineación del texto
   final TextAlign? textAlign;
 
+  /// Estilo de texto personalizado
+  final TextStyle? textStyle;
+
   /// Widget de icono personalizado
   final Widget? iconWidget;
 
@@ -60,6 +63,7 @@ class RMOutlinedButton extends StatelessWidget {
     this.iconPath,
     this.iconRight = false,
     this.textAlign,
+    this.textStyle,
     this.iconWidget,
   });
 
@@ -76,6 +80,7 @@ class RMOutlinedButton extends StatelessWidget {
     String? iconPath,
     bool iconRight = false,
     TextAlign? textAlign,
+    TextStyle? textStyle,
     Widget? iconWidget,
   }) : this._(
          key: key,
@@ -89,6 +94,7 @@ class RMOutlinedButton extends StatelessWidget {
          iconPath: iconPath,
          iconRight: iconRight,
          textAlign: textAlign,
+         textStyle: textStyle,
          iconWidget: iconWidget,
        );
 
@@ -109,41 +115,55 @@ class RMOutlinedButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           disabledBackgroundColor: Colors.transparent,
           disabledForegroundColor: RMColors.disabled,
-          side: BorderSide(
-            color: isDisabled
-                ? RMColors.disabled
-                : foregroundColor ?? RMColors.specificContentHigh,
-          ),
+          side: isDisabled
+              ? BorderSide(color: RMColors.disabled)
+              : foregroundColor != null
+              ? BorderSide(color: foregroundColor!)
+              : null,
           backgroundColor: isDisabled ? Colors.transparent : backgroundColor,
           foregroundColor: isDisabled
               ? RMColors.disabled
-              : foregroundColor ?? RMColors.specificContentHigh,
+              : foregroundColor ?? _getDefaultForegroundColor(context),
           padding: padding,
         ),
         child: isLoading
-            ? SizedBox(
-                height: 16,
-                width: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: foregroundColor ?? RMColors.specificBasicWhite,
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: SizedBox(
+                  height: 16,
+                  width: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color:
+                        foregroundColor ?? _getDefaultForegroundColor(context),
+                  ),
                 ),
               )
             : Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (!iconRight && iconPath != null) ...[
-                    RMImageAssetWidget(path: iconPath!, width: 20, height: 20),
+                    RMImageAssetWidget.icon(
+                      path: iconPath!,
+                      width: 20,
+                      height: 20,
+                    ),
                     const SizedBox(width: 8),
                   ],
                   if (!iconRight && iconWidget != null) ...[
                     iconWidget!,
                     const SizedBox(width: 8),
                   ],
-                  Flexible(child: Text(label, textAlign: textAlign)),
+                  Flexible(
+                    child: Text(label, textAlign: textAlign, style: textStyle),
+                  ),
                   if (iconRight && iconPath != null) ...[
                     const SizedBox(width: 8),
-                    RMImageAssetWidget(path: iconPath!, width: 20, height: 20),
+                    RMImageAssetWidget.icon(
+                      path: iconPath!,
+                      width: 20,
+                      height: 20,
+                    ),
                   ],
                   if (iconRight && iconWidget != null) ...[
                     const SizedBox(width: 8),
@@ -153,5 +173,13 @@ class RMOutlinedButton extends StatelessWidget {
               ),
       ),
     );
+  }
+
+  /// Obtiene el color de texto por defecto según el tema actual
+  Color _getDefaultForegroundColor(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    return brightness == Brightness.dark
+        ? Colors.white
+        : RMColors.specificContentHigh;
   }
 }

@@ -87,19 +87,21 @@ class RMTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveOnPressed = enabled ? onPressed : null;
+    final textColor = _getTextColor(context);
 
     return TextButton(
       onPressed: effectiveOnPressed,
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-        foregroundColor: Colors.black,
-        overlayColor: Colors.transparent,
+        foregroundColor: textColor,
+        disabledForegroundColor: RMColors.disabled,
+        // overlayColor: Colors.transparent,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(child: Text(label, style: _getTextStyle())),
+          Flexible(child: Text(label, style: textStyle)),
           if (_style == RMTextButtonStyle.icon &&
               iconPath?.isNotEmpty == true) ...[
             const SizedBox(width: 8),
@@ -107,7 +109,7 @@ class RMTextButton extends StatelessWidget {
               path: iconPath!,
               height: 16,
               width: 16,
-              color: _getTextColor(),
+              color: _getTextColor(context),
             ),
           ],
         ],
@@ -115,13 +117,14 @@ class RMTextButton extends StatelessWidget {
     );
   }
 
-  TextStyle _getTextStyle() {
-    final baseStyle = textStyle ?? RMTextStyles.bodyMediumStyle;
-    return baseStyle.copyWith(color: _getTextColor());
-  }
+  Color _getTextColor(BuildContext context) {
+    if (!enabled) return RMColors.disabled;
 
-  Color _getTextColor() {
-    return enabled ? (colorText ?? Colors.black) : RMColors.disabled;
+    // Si se especifica un color personalizado, usarlo
+    if (colorText != null) return colorText!;
+
+    // Si no, usar el color primario que se adapta al tema
+    return RMColors.primary;
   }
 }
 

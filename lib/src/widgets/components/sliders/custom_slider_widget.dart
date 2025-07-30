@@ -103,7 +103,7 @@ class _RMSliderWidgetState extends State<RMSliderWidget> {
                         divisions: widget.divisions ?? division(),
                         onChanged: widget.isDisabled ? null : _updateValue,
                         activeColor: RMColors.primary,
-                        thumbColor: Colors.black,
+                        thumbColor: thumbColor,
                         inactiveColor: Colors.grey[300],
                       ),
                     ),
@@ -117,5 +117,11 @@ class _RMSliderWidgetState extends State<RMSliderWidget> {
         RMText.titleMedium(widget.max.toInt().toString()),
       ],
     );
+  }
+
+  Color? get thumbColor {
+    final brightness = Theme.of(context).brightness;
+    final color = brightness == Brightness.dark ? Colors.white : Colors.black;
+    return color;
   }
 }

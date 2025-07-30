@@ -22,7 +22,7 @@ class RMElevatedButton extends StatelessWidget {
   final String label;
 
   /// Función que se ejecuta al presionar el botón
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
 
   /// Color de fondo personalizado
   final Color? backgroundColor;
@@ -48,6 +48,9 @@ class RMElevatedButton extends StatelessWidget {
   /// Alineación del texto
   final TextAlign? textAlign;
 
+  /// Estilo de texto
+  final TextStyle? textStyle;
+
   /// Color del icono
   final Color? iconColor;
 
@@ -64,6 +67,7 @@ class RMElevatedButton extends StatelessWidget {
     this.iconPath,
     this.iconRight = false,
     this.textAlign,
+    this.textStyle,
     this.iconColor,
   }) : _style = style;
 
@@ -71,7 +75,7 @@ class RMElevatedButton extends StatelessWidget {
   const RMElevatedButton.primary({
     Key? key,
     required String label,
-    required VoidCallback? onPressed,
+    required VoidCallback onPressed,
     Color? backgroundColor,
     Color? foregroundColor,
     EdgeInsets? padding,
@@ -80,6 +84,7 @@ class RMElevatedButton extends StatelessWidget {
     String? iconPath,
     bool iconRight = false,
     TextAlign? textAlign,
+    TextStyle? textStyle,
     Color? iconColor,
   }) : this._(
          key: key,
@@ -94,6 +99,7 @@ class RMElevatedButton extends StatelessWidget {
          iconPath: iconPath,
          iconRight: iconRight,
          textAlign: textAlign,
+         textStyle: textStyle,
          iconColor: iconColor,
        );
 
@@ -101,7 +107,7 @@ class RMElevatedButton extends StatelessWidget {
   const RMElevatedButton.inverse({
     Key? key,
     required String label,
-    required VoidCallback? onPressed,
+    required VoidCallback onPressed,
     Color? backgroundColor,
     Color? foregroundColor,
     EdgeInsets? padding,
@@ -110,6 +116,7 @@ class RMElevatedButton extends StatelessWidget {
     String? iconPath,
     bool iconRight = false,
     TextAlign? textAlign,
+    TextStyle? textStyle,
     Color? iconColor,
   }) : this._(
          key: key,
@@ -124,36 +131,39 @@ class RMElevatedButton extends StatelessWidget {
          iconPath: iconPath,
          iconRight: iconRight,
          textAlign: textAlign,
+         textStyle: textStyle,
          iconColor: iconColor,
        );
 
   @override
   Widget build(BuildContext context) {
-    final effectiveOnPressed = (isDisabled || isLoading) ? null : onPressed;
-
     return RMButtonScaleWidget(
-      onTap: effectiveOnPressed == null
+      onTap: isDisabled
           ? null
           : () {
               if (isLoading) return;
-              effectiveOnPressed();
+              onPressed();
             },
       child: ElevatedButton(
-        onPressed: effectiveOnPressed,
+        onPressed: () {
+          if (isLoading || isDisabled) return;
+          onPressed();
+        },
+
         style: ElevatedButton.styleFrom(
           disabledBackgroundColor: RMColors.disabled,
           disabledForegroundColor: Colors.white,
-          backgroundColor: _getBackgroundColor(),
-          foregroundColor: _getForegroundColor(),
+          backgroundColor: _getBackgroundColor(context),
+          foregroundColor: _getForegroundColor(context),
           padding: padding,
         ),
         child: isLoading
             ? SizedBox(
-                height: 20,
-                width: 20,
+                height: 16,
+                width: 16,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: _getForegroundColor(),
+                  color: _getForegroundColor(context),
                 ),
               )
             : Row(
@@ -164,18 +174,20 @@ class RMElevatedButton extends StatelessWidget {
                       path: iconPath!,
                       width: 20,
                       height: 20,
-                      color: iconColor ?? _getDefaultIconColor(),
+                      color: iconColor ?? _getDefaultIconColor(context),
                     ),
                     const SizedBox(width: 8),
                   ],
-                  Flexible(child: Text(label, textAlign: textAlign)),
+                  Flexible(
+                    child: Text(label, textAlign: textAlign, style: textStyle),
+                  ),
                   if (iconRight && iconPath != null) ...[
                     const SizedBox(width: 8),
                     RMImageAssetWidget(
                       path: iconPath!,
                       width: 20,
                       height: 20,
-                      color: iconColor ?? _getDefaultIconColor(),
+                      color: iconColor ?? _getDefaultIconColor(context),
                     ),
                   ],
                 ],
@@ -184,7 +196,7 @@ class RMElevatedButton extends StatelessWidget {
     );
   }
 
-  Color _getBackgroundColor() {
+  Color _getBackgroundColor(BuildContext context) {
     if (isDisabled) return RMColors.disabled;
     if (backgroundColor != null) return backgroundColor!;
 
@@ -192,28 +204,39 @@ class RMElevatedButton extends StatelessWidget {
       case RMElevatedButtonStyle.primary:
         return RMColors.primary;
       case RMElevatedButtonStyle.inverse:
-        return RMColors.onBackground;
+        // En inverse, el fondo debe adaptarse al tema
+        final brightness = Theme.of(context).brightness;
+        return brightness == Brightness.dark
+            ? Colors.white
+            : RMColors.onBackground;
     }
   }
 
-  Color _getForegroundColor() {
+  Color _getForegroundColor(BuildContext context) {
     if (isDisabled) return Colors.white;
     if (foregroundColor != null) return foregroundColor!;
 
     switch (_style) {
       case RMElevatedButtonStyle.primary:
-        return RMColors.specificContentHigh;
+        // Para primary, el texto debe ser legible sobre el color primario
+        // Generalmente el primario es un color, así que texto blanco es más seguro
+        return Colors.white;
       case RMElevatedButtonStyle.inverse:
-        return RMColors.specificBasicWhite;
+        // En inverse, el texto debe ser contrario al fondo
+        final brightness = Theme.of(context).brightness;
+        return brightness == Brightness.dark ? Colors.black : Colors.white;
     }
   }
 
-  Color _getDefaultIconColor() {
+  Color _getDefaultIconColor(BuildContext context) {
     switch (_style) {
       case RMElevatedButtonStyle.primary:
-        return RMColors.specificBasicBlack;
+        // Para primary, el icono debe coincidir con el texto (blanco)
+        return Colors.white;
       case RMElevatedButtonStyle.inverse:
-        return RMColors.specificBasicWhite;
+        // Para inverse, el icono debe coincidir con el texto
+        final brightness = Theme.of(context).brightness;
+        return brightness == Brightness.dark ? Colors.black : Colors.white;
     }
   }
 }

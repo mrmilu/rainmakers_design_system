@@ -22,6 +22,9 @@ class RMAssets {
   /// Icono de error (reutiliza el de warning)
   static const String iconError = '$_iconsPath/warning.svg';
 
+  /// Icono de flecha hacia abajo
+  static const String iconArrowDown = '$_iconsPath/arrow_ios_down.svg';
+
   // =============================================================================
   // 🎯 UTILIDADES PARA ICONOS PERSONALIZADOS
   // =============================================================================

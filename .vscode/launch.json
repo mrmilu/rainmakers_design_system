@@ -1,0 +1,51 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Example App (Debug)",
+            "cwd": "example",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Example App (Profile)",
+            "cwd": "example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Example App (Release)",
+            "cwd": "example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Theme Examples",
+            "cwd": "example",
+            "request": "launch",
+            "type": "dart",
+            "program": "theme_examples.dart"
+        },
+        {
+            "name": "Theme Comparison",
+            "cwd": "example",
+            "request": "launch",
+            "type": "dart",
+            "program": "theme_comparison.dart"
+        },
+        {
+            "name": "Package Tests",
+            "request": "launch",
+            "type": "dart",
+            "program": "test"
+        }
+    ]
+}

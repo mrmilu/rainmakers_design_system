@@ -4,9 +4,8 @@ import 'package:flutter/services.dart';
 import '../../../theme/theme.dart';
 import '../../common/row_icon_text_widget.dart';
 import '../text/rm_text.dart';
-import 'imput_formatters/cups_input_formatter.dart';
 
-class RMCupsFieldWidget extends StatefulWidget {
+class RMCustomStatesTextFieldWidget extends StatefulWidget {
   final Function(String) onCompleted;
   final Function(String)? onChanged;
   final FormFieldSetter<String>? onSaved;
@@ -40,8 +39,10 @@ class RMCupsFieldWidget extends StatefulWidget {
   final bool isLoading;
   final bool isAccepted;
   final bool isError;
+  final List<TextInputFormatter>? inputFormatters;
+  final int limitOnCompleted;
 
-  const RMCupsFieldWidget({
+  const RMCustomStatesTextFieldWidget({
     super.key,
     required this.onCompleted,
     this.onChanged,
@@ -76,13 +77,17 @@ class RMCupsFieldWidget extends StatefulWidget {
     this.isLoading = false,
     this.isAccepted = false,
     this.isError = false,
+    this.inputFormatters,
+    this.limitOnCompleted = 28,
   });
 
   @override
-  State<RMCupsFieldWidget> createState() => _RMCupsFieldWidgetState();
+  State<RMCustomStatesTextFieldWidget> createState() =>
+      _RMCustomStatesTextFieldWidgetState();
 }
 
-class _RMCupsFieldWidgetState extends State<RMCupsFieldWidget> {
+class _RMCustomStatesTextFieldWidgetState
+    extends State<RMCustomStatesTextFieldWidget> {
   late final TextEditingController _controller;
   late FocusNode _focusNode;
   late ValueNotifier<double> _borderWidthNotifier;
@@ -91,8 +96,7 @@ class _RMCupsFieldWidgetState extends State<RMCupsFieldWidget> {
   void initState() {
     super.initState();
     _controller =
-        widget.controller ??
-        TextEditingController(text: _formatCUPS(widget.initialValue ?? ''));
+        widget.controller ?? TextEditingController(text: widget.initialValue);
 
     _focusNode = widget.focusNode ?? FocusNode();
     _borderWidthNotifier = ValueNotifier(1.0);
@@ -111,18 +115,6 @@ class _RMCupsFieldWidgetState extends State<RMCupsFieldWidget> {
     }
     _borderWidthNotifier.dispose();
     super.dispose();
-  }
-
-  String _formatCUPS(String text) {
-    final cleanText = text.replaceAll(' ', '').toUpperCase();
-    final formattedText = StringBuffer();
-    for (int i = 0; i < cleanText.length; i++) {
-      if (i == 2 || i == 6 || i == 18 || i == 20) {
-        formattedText.write(' ');
-      }
-      formattedText.write(cleanText[i]);
-    }
-    return formattedText.toString();
   }
 
   @override
@@ -162,7 +154,7 @@ class _RMCupsFieldWidgetState extends State<RMCupsFieldWidget> {
                           Expanded(
                             child: TextFormField(
                               enabled: widget.enabled,
-                              inputFormatters: [CUPSInputFormatter()],
+                              inputFormatters: widget.inputFormatters,
                               maxLengthEnforcement: MaxLengthEnforcement
                                   .truncateAfterCompositionEnds,
                               textCapitalization:
@@ -174,10 +166,9 @@ class _RMCupsFieldWidgetState extends State<RMCupsFieldWidget> {
                               obscureText: widget.obscureText ?? false,
                               onChanged: (text) {
                                 widget.onChanged?.call(text);
-                              },
-                              onTapOutside: (event) {
-                                _focusNode.unfocus();
-                                widget.onCompleted('');
+                                if (text.length == widget.limitOnCompleted) {
+                                  widget.onCompleted(text);
+                                }
                               },
                               controller: _controller,
                               validator: widget.validator,
@@ -260,8 +251,8 @@ class _RMCupsFieldWidgetState extends State<RMCupsFieldWidget> {
           if (widget.showError || widget.infoText != null) ...[
             const SizedBox(height: 6),
             widget.showError
-                ? RMRowIconTextWidget.error(widget.errorText ?? '')
-                : RMRowIconTextWidget.info(widget.infoText ?? ''),
+                ? RMRowIconTextWidget.warning(widget.errorText!)
+                : RMRowIconTextWidget.info(widget.infoText!),
           ],
         ],
       ),

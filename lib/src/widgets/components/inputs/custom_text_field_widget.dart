@@ -135,7 +135,7 @@ class _RMTextFieldWidgetState extends State<RMTextFieldWidget> {
                     color:
                         widget.backgroundColor ??
                         (widget.readOnly
-                            ? RMColors.background
+                            ? RMColors.specificBasicGrey
                             : RMColors.specificBasicWhite),
                     borderRadius: BorderRadius.circular(widget.borderRadius),
                     border: widget.showBorder
@@ -144,6 +144,8 @@ class _RMTextFieldWidgetState extends State<RMTextFieldWidget> {
                             color:
                                 (widget.showError && widget.errorText != null)
                                 ? RMColors.specificSemanticError
+                                : !widget.enabled
+                                ? RMColors.disabled
                                 : widget.borderColor ??
                                       (widget.readOnly
                                           ? RMColors.specificBasicGrey

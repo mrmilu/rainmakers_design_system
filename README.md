@@ -139,6 +139,21 @@ MaterialApp(
 )
 ```
 
+#### ✨ Tema Especial (`RMThemeData.special()`)
+- **Ideal para**: Apps de gaming, eventos, presentaciones, demos especiales
+- **Características**: Efectos dramáticos, elevación extrema, bordes muy redondeados
+- **Estilo**: Sombras llamativas, gradientes, efectos de glow, animaciones
+
+```dart
+RMThemeData.useSpecialTheme();
+// o
+MaterialApp(
+  theme: RMThemeData.special().lightTheme,
+  darkTheme: RMThemeData.special().darkTheme,
+  home: MyHomePage(),
+)
+```
+
 #### 🎯 Selector Dinámico de Temas
 
 ```dart
@@ -163,6 +178,9 @@ class _MyAppState extends State<MyApp> {
         break;
       case RMThemeType.corporate:
         themeData = RMThemeData.corporate();
+        break;
+      case RMThemeType.special:
+        themeData = RMThemeData.special();
         break;
     }
     
@@ -440,17 +458,16 @@ iconPath: RMAssets.iconPath('mi_icono.svg')
 ### Extensiones
 ```dart
 // Extensiones de Color
-Color myColor = Colors.blue.withOpacityValue(128);
+Color myColor = Colors.blue.wOpacity(0.4);
 
 // Extensiones de String
-String text = "hola mundo".capitalize(); // "Hola mundo"
-bool isValid = "test@email.com".isValidEmail();
+String text = "hola mundo".toUpperCaseFirst(); // "Hola mundo"
 
 // Extensiones de DateTime
-String formatted = DateTime.now().toFormattedString();
+String formatted = DateTime.now().toDay();
 
 // Extensiones de double
-String currency = 1234.56.toCurrency(); // "$1,234.56"
+String currency = 1234.5623232.toTwoDecimalStringNF(); // "$1,234.57"
 ```
 
 ### Formateadores

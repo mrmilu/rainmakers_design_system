@@ -89,7 +89,7 @@ class RMIconButton extends StatelessWidget {
         minimumSize: const Size(12, 12),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         visualDensity: VisualDensity.compact,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         foregroundColor: Colors.black,
         overlayColor: Colors.transparent,
         backgroundColor: _getBackgroundColor(),
@@ -114,7 +114,7 @@ class RMIconButton extends StatelessWidget {
 
   Color? _getBackgroundColor() {
     if (!enabled) return RMColors.disabled;
-    return backgroundColor;
+    return backgroundColor ?? RMColors.primary;
   }
 
   Color _getForegroundColor() {
@@ -123,7 +123,7 @@ class RMIconButton extends StatelessWidget {
 
   Color? _getIconColor() {
     if (!enabled) return Colors.white;
-    return foregroundColor;
+    return foregroundColor ?? RMColors.specificBasicBlack;
   }
 }
 

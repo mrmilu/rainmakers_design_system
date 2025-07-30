@@ -14,6 +14,7 @@ class RMTagIconWidget extends StatelessWidget {
     required this.iconPath,
     this.iconColor,
   });
+
   final String label;
   final Color? textColor;
   final Color? backgroundColor;
@@ -23,21 +24,40 @@ class RMTagIconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color? effectiveBorderColor = borderColor;
+    if (borderColor == null && backgroundColor == null) {
+      final brightness = Theme.of(context).brightness;
+      effectiveBorderColor = brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black;
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       constraints: const BoxConstraints(minWidth: 88),
       decoration: BoxDecoration(
-        color: backgroundColor ?? RMColors.background,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(80),
-        border: Border.all(
-          width: 1,
-          color: borderColor ?? backgroundColor ?? RMColors.background,
-        ),
+        border: effectiveBorderColor != null || backgroundColor != null
+            ? Border.all(
+                width: 1,
+                color:
+                    effectiveBorderColor ??
+                    backgroundColor ??
+                    RMColors.background,
+              )
+            : null,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          RMImageAssetWidget(path: iconPath, width: 24, height: 24),
+          RMImageAssetWidget(
+            path: iconPath,
+            width: 24,
+            height: 24,
+            color: iconColor,
+            useThemeColor: iconColor == null,
+          ),
           const SizedBox(width: 8),
           Flexible(
             child: RMText.bodyMedium(
@@ -63,7 +83,7 @@ class RMTagIconWidget extends StatelessWidget {
       label: label,
       iconPath: iconPath,
       textColor: textColor,
-      backgroundColor: backgroundColor ?? RMColors.background,
+      backgroundColor: backgroundColor ?? Colors.transparent,
       borderColor: borderColor,
       iconColor: iconColor,
     );
@@ -81,8 +101,8 @@ class RMTagIconWidget extends StatelessWidget {
       label: label,
       iconPath: iconPath,
       textColor: textColor,
-      backgroundColor: backgroundColor ?? RMColors.background,
-      borderColor: borderColor ?? RMColors.specificBasicGrey,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
       iconColor: iconColor,
     );
   }

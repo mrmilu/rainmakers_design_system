@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../theme/theme.dart';
-import '../../common/image_asset_widget.dart';
-import '../../common/row_icon_text_widget.dart';
-import '../text/rm_text.dart';
+import 'package:rainmakers_design_system/rainmakers_design_system.dart';
 
 class RMDropdownFieldWidget<T> extends StatelessWidget {
   const RMDropdownFieldWidget({
@@ -17,6 +13,7 @@ class RMDropdownFieldWidget<T> extends StatelessWidget {
     this.errorText,
     this.readOnly = false,
     required this.items,
+    this.borderRadius = 32.0,
   });
   final bool enabled;
   final String? title;
@@ -26,6 +23,7 @@ class RMDropdownFieldWidget<T> extends StatelessWidget {
   final bool showError;
   final String? errorText;
   final bool readOnly;
+  final double borderRadius;
 
   final List<DropdownMenuItem<T>>? items;
 
@@ -48,9 +46,9 @@ class RMDropdownFieldWidget<T> extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: readOnly
-                  ? RMColors.background
+                  ? RMColors.specificBasicGrey
                   : RMColors.specificBasicWhite,
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(borderRadius),
               border: Border.all(width: 1, color: _getBorderColor()),
             ),
             alignment: Alignment.center,
@@ -63,6 +61,7 @@ class RMDropdownFieldWidget<T> extends StatelessWidget {
                   ),
                   border: InputBorder.none,
                   enabled: enabled && !readOnly,
+                  fillColor: Colors.transparent,
                   label: title != null
                       ? RMText.bodyMedium(
                           title!,
@@ -82,7 +81,7 @@ class RMDropdownFieldWidget<T> extends StatelessWidget {
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: title != null ? 10.0 : 0),
                   child: RMImageAssetWidget(
-                    path: 'assets/icons/arrow_ios_down.svg',
+                    path: RMAssets.iconArrowDown,
                     color: enabled && !readOnly
                         ? RMColors.specificBasicBlack
                         : RMColors.specificBasicGrey,

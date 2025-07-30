@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Theme Comparison',
       theme: themeData.lightTheme,
-      // darkTheme: themeData.darkTheme,
+      darkTheme: themeData.darkTheme,
       home: ComponentsPage(
         onThemeChanged: (newTheme) {
           setState(() {

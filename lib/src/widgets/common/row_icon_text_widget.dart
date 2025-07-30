@@ -23,6 +23,7 @@ class RMRowIconTextWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -31,7 +32,9 @@ class RMRowIconTextWidget extends StatelessWidget {
             path: iconPath!,
             width: iconSize,
             height: iconSize,
-            color: iconColor,
+            color:
+                iconColor ??
+                (brightness == Brightness.dark ? Colors.white : Colors.black),
           ),
           SizedBox(width: spacing),
         ],
@@ -50,7 +53,7 @@ class RMRowIconTextWidget extends StatelessWidget {
       text: text,
       iconPath: RMAssets.iconInfo,
       iconSize: 16,
-      iconColor: RMColors.specificBasicBlack,
+      iconColor: null,
     );
   }
 
