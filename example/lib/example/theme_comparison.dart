@@ -1,4 +1,4 @@
-/// Comparación visual de los 4 temas predefinidos
+/// Comparación visual de los 3 temas predefinidos
 ///
 /// Este archivo muestra lado a lado las diferencias entre los temas
 library;
@@ -30,7 +30,7 @@ class ThemeComparisonScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comparación de los 4 Temas del Design System'),
+        title: Text('Comparación de Temas del Design System'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -39,90 +39,60 @@ class ThemeComparisonScreen extends StatelessWidget {
           children: [
             // Título
             Text(
-              '4 Temas Predefinidos Disponibles',
+              '3 Temas Predefinidos Disponibles',
               style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 32),
 
-            // Comparación en grid 2x2
-            Column(
+            // Comparación en fila
+            Row(
               children: [
-                // Primera fila
-                Row(
-                  children: [
-                    // Tema Moderno
-                    Expanded(
-                      child: _buildThemePreview(
-                        title: '🌟 Moderno',
-                        description: 'Apps de consumo\nStartups\nCreativas',
-                        themeData: RMThemeData.modern(),
-                        characteristics: [
-                          'BorderRadius: 16px',
-                          'Elevación: 4-12px',
-                          'Colores vibrantes',
-                          'Efectos modernos',
-                          'Sombras elegantes',
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 16),
-
-                    // Tema Minimalista
-                    Expanded(
-                      child: _buildThemePreview(
-                        title: '✨ Minimalista',
-                        description: 'Productividad\nPortfolios\nBlogs',
-                        themeData: RMThemeData.minimal(),
-                        characteristics: [
-                          'BorderRadius: 6-8px',
-                          'Elevación: 0-2px',
-                          'Bordes sutiles',
-                          'Espacios amplios',
-                          'Líneas limpias',
-                        ],
-                      ),
-                    ),
-                  ],
+                // Tema Moderno
+                Expanded(
+                  child: _buildThemePreview(
+                    title: '🌟 Moderno',
+                    description: 'Apps de consumo\nStartups\nCreativas',
+                    themeData: RMThemeData.modern(),
+                    characteristics: [
+                      'BorderRadius: 12px',
+                      'Elevación: 2-8px',
+                      'Colores vibrantes',
+                      'Efectos modernos',
+                    ],
+                  ),
                 ),
-                SizedBox(height: 16),
+                SizedBox(width: 16),
 
-                // Segunda fila
-                Row(
-                  children: [
-                    // Tema Corporativo
-                    Expanded(
-                      child: _buildThemePreview(
-                        title: '💼 Corporativo',
-                        description: 'Empresarial\nFintech\nNegocios',
-                        themeData: RMThemeData.corporate(),
-                        characteristics: [
-                          'BorderRadius: 4px',
-                          'Elevación: 1-3px',
-                          'Estilo profesional',
-                          'Tipografía bold',
-                          'Sombras sutiles',
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 16),
+                // Tema Minimalista
+                Expanded(
+                  child: _buildThemePreview(
+                    title: '✨ Minimalista',
+                    description: 'Productividad\nPortfolios\nBlogs',
+                    themeData: RMThemeData.minimal(),
+                    characteristics: [
+                      'BorderRadius: 4px',
+                      'Elevación: 0px',
+                      'Bordes sutiles',
+                      'Espacios amplios',
+                    ],
+                  ),
+                ),
+                SizedBox(width: 16),
 
-                    // Tema Especial
-                    Expanded(
-                      child: _buildThemePreview(
-                        title: '🎮 Especial',
-                        description: 'Gaming\nEventos\nDemos\nPresentaciones',
-                        themeData: RMThemeData.special(),
-                        characteristics: [
-                          'BorderRadius: 20-25px',
-                          'Elevación: 10-25px',
-                          'Efectos dramáticos',
-                          'Sombras llamativas',
-                          'Gradientes visuales',
-                        ],
-                      ),
-                    ),
-                  ],
+                // Tema Corporativo
+                Expanded(
+                  child: _buildThemePreview(
+                    title: '💼 Corporativo',
+                    description: 'Empresarial\nFintech\nNegocios',
+                    themeData: RMThemeData.corporate(),
+                    characteristics: [
+                      'BorderRadius: 2px',
+                      'Elevación: 1px',
+                      'Estilo profesional',
+                      'Tipografía bold',
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -236,46 +206,23 @@ class ThemeComparisonScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '💻 Ejemplos de Código para los 4 Temas',
+            '💻 Ejemplos de Código',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 16),
 
           // Uso directo
-          _buildCodeSection('1. Uso Directo de Cada Tema', '''// Tema Moderno
-MaterialApp(
+          _buildCodeSection('1. Uso Directo', '''MaterialApp(
   theme: RMThemeData.modern().lightTheme,
   darkTheme: RMThemeData.modern().darkTheme,
-  home: MyHomePage(),
-)
-
-// Tema Minimalista
-MaterialApp(
-  theme: RMThemeData.minimal().lightTheme,
-  darkTheme: RMThemeData.minimal().darkTheme,
-  home: MyHomePage(),
-)
-
-// Tema Corporativo
-MaterialApp(
-  theme: RMThemeData.corporate().lightTheme,
-  darkTheme: RMThemeData.corporate().darkTheme,
-  home: MyHomePage(),
-)
-
-// Tema Especial
-MaterialApp(
-  theme: RMThemeData.special().lightTheme,
-  darkTheme: RMThemeData.special().darkTheme,
   home: MyHomePage(),
 )'''),
 
           // Configuración global
           _buildCodeSection('2. Configuración Global', '''// Al inicio de tu app
-RMThemeData.useModernTheme();    // Moderno
-RMThemeData.useMinimalTheme();   // Minimalista
-RMThemeData.useCorporateTheme(); // Corporativo
-RMThemeData.useSpecialTheme();   // Especial
+RMThemeData.useModernTheme();
+// o RMThemeData.useMinimalTheme();
+// o RMThemeData.useCorporateTheme();
 
 MaterialApp(
   theme: RMThemeData.light,
@@ -285,10 +232,13 @@ MaterialApp(
 
           // Selector dinámico
           _buildCodeSection(
-            '3. Selector Dinámico con Todos los Temas',
+            '3. Cambio Dinámico',
             '''RMThemeType currentTheme = RMThemeType.modern;
 
-// Cambiar tema dinámicamente
+// Cambiar tema
+RMThemeData.useThemeType(currentTheme);
+
+// O usando switch
 switch (currentTheme) {
   case RMThemeType.modern:
     return RMThemeData.modern();
@@ -296,12 +246,7 @@ switch (currentTheme) {
     return RMThemeData.minimal();
   case RMThemeType.corporate:
     return RMThemeData.corporate();
-  case RMThemeType.special:
-    return RMThemeData.special();
-}
-
-// O usar el método helper
-RMThemeData.useThemeType(currentTheme);''',
+}''',
           ),
         ],
       ),
