@@ -121,9 +121,7 @@ class RMOutlinedButton extends StatelessWidget {
               ? BorderSide(color: foregroundColor!)
               : null,
           backgroundColor: isDisabled ? Colors.transparent : backgroundColor,
-          foregroundColor: isDisabled
-              ? RMColors.disabled
-              : foregroundColor ?? _getDefaultForegroundColor(context),
+          foregroundColor: isDisabled ? RMColors.disabled : foregroundColor,
           padding: padding,
         ),
         child: isLoading

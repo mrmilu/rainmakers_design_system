@@ -145,14 +145,15 @@ class RMElevatedButton extends StatelessWidget {
               onPressed();
             },
       child: ElevatedButton(
-        onPressed: () {
-          if (isLoading || isDisabled) return;
-          onPressed();
-        },
-
+        onPressed: !isDisabled
+            ? () {
+                if (isLoading || isDisabled) return;
+                onPressed();
+              }
+            : null,
         style: ElevatedButton.styleFrom(
           disabledBackgroundColor: RMColors.disabled,
-          disabledForegroundColor: Colors.white,
+          // disabledForegroundColor: Colors.white,
           backgroundColor: _getBackgroundColor(context),
           foregroundColor: _getForegroundColor(context),
           padding: padding,
@@ -212,7 +213,7 @@ class RMElevatedButton extends StatelessWidget {
     }
   }
 
-  Color _getForegroundColor(BuildContext context) {
+  Color? _getForegroundColor(BuildContext context) {
     if (isDisabled) return Colors.white;
     if (foregroundColor != null) return foregroundColor!;
 
@@ -220,7 +221,7 @@ class RMElevatedButton extends StatelessWidget {
       case RMElevatedButtonStyle.primary:
         // Para primary, el texto debe ser legible sobre el color primario
         // Generalmente el primario es un color, así que texto blanco es más seguro
-        return Colors.white;
+        return null;
       case RMElevatedButtonStyle.inverse:
         // En inverse, el texto debe ser contrario al fondo
         final brightness = Theme.of(context).brightness;
@@ -228,11 +229,11 @@ class RMElevatedButton extends StatelessWidget {
     }
   }
 
-  Color _getDefaultIconColor(BuildContext context) {
+  Color? _getDefaultIconColor(BuildContext context) {
     switch (_style) {
       case RMElevatedButtonStyle.primary:
         // Para primary, el icono debe coincidir con el texto (blanco)
-        return Colors.white;
+        return null;
       case RMElevatedButtonStyle.inverse:
         // Para inverse, el icono debe coincidir con el texto
         final brightness = Theme.of(context).brightness;

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/text_styles.dart';
-
 /// Estilos de texto disponibles en el design system
 enum RMTextStyle {
   displayLarge,
@@ -363,59 +361,59 @@ class RMText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle baseStyle;
+    TextStyle? baseStyle;
 
     switch (_style) {
       case RMTextStyle.displayLarge:
-        baseStyle = RMTextStyles.displayLargeStyle;
+        baseStyle = Theme.of(context).textTheme.displayLarge;
         break;
       case RMTextStyle.displayMedium:
-        baseStyle = RMTextStyles.displayMediumStyle;
+        baseStyle = Theme.of(context).textTheme.displayMedium;
         break;
       case RMTextStyle.displaySmall:
-        baseStyle = RMTextStyles.displaySmallStyle;
+        baseStyle = Theme.of(context).textTheme.displaySmall;
         break;
       case RMTextStyle.headlineLarge:
-        baseStyle = RMTextStyles.headlineLargeStyle;
+        baseStyle = Theme.of(context).textTheme.headlineLarge;
         break;
       case RMTextStyle.headlineMedium:
-        baseStyle = RMTextStyles.headlineMediumStyle;
+        baseStyle = Theme.of(context).textTheme.headlineMedium;
         break;
       case RMTextStyle.headlineSmall:
-        baseStyle = RMTextStyles.headlineSmallStyle;
+        baseStyle = Theme.of(context).textTheme.headlineSmall;
         break;
       case RMTextStyle.titleLarge:
-        baseStyle = RMTextStyles.titleLargeStyle;
+        baseStyle = Theme.of(context).textTheme.titleLarge;
         break;
       case RMTextStyle.titleMedium:
-        baseStyle = RMTextStyles.titleMediumStyle;
+        baseStyle = Theme.of(context).textTheme.titleMedium;
         break;
       case RMTextStyle.titleSmall:
-        baseStyle = RMTextStyles.titleSmallStyle;
+        baseStyle = Theme.of(context).textTheme.titleSmall;
         break;
       case RMTextStyle.bodyLarge:
-        baseStyle = RMTextStyles.bodyLargeStyle;
+        baseStyle = Theme.of(context).textTheme.bodyLarge;
         break;
       case RMTextStyle.bodyMedium:
-        baseStyle = RMTextStyles.bodyMediumStyle;
+        baseStyle = Theme.of(context).textTheme.bodyMedium;
         break;
       case RMTextStyle.bodySmall:
-        baseStyle = RMTextStyles.bodySmallStyle;
+        baseStyle = Theme.of(context).textTheme.bodySmall;
         break;
       case RMTextStyle.labelLarge:
-        baseStyle = RMTextStyles.labelLargeStyle;
+        baseStyle = Theme.of(context).textTheme.labelLarge;
         break;
       case RMTextStyle.labelMedium:
-        baseStyle = RMTextStyles.labelMediumStyle;
+        baseStyle = Theme.of(context).textTheme.labelMedium;
         break;
       case RMTextStyle.labelSmall:
-        baseStyle = RMTextStyles.labelSmallStyle;
+        baseStyle = Theme.of(context).textTheme.labelSmall;
         break;
     }
 
     return Text(
       text,
-      style: baseStyle.copyWith(
+      style: baseStyle?.copyWith(
         color: color,
         fontWeight: fontWeight,
         fontSize: fontSize,
